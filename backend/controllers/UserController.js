@@ -99,6 +99,7 @@ module.exports = class UserController{
         await createUserToken(user, req, res)
     }
 
+    // Verficação usuário pelo token
     static async checkUser(req, res){
         let currentUser
         console.log(req.headers.authorization)
@@ -113,5 +114,19 @@ module.exports = class UserController{
             currentUser = null
         }
         res.status(200).send(currentUser)
+    }
+
+    // Resgatando usuário por ID
+    static async getUserById(req, res){
+        const id = req.params.id
+        const user = await User.findById(id).select('-password')
+
+        if(!user){
+            res.status(422).json({
+                message: 'Usuário não encontrado',
+            })
+            return
+        }
+        res.status(200).json({ user })
     }
 }
