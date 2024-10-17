@@ -100,7 +100,7 @@ module.exports = class UserController{
         await createUserToken(user, req, res)
     }
 
-    // Verficação usuário pelo token
+    // User verification by token
     static async checkUser(req, res){
         let currentUser
         console.log(req.headers.authorization)
@@ -117,7 +117,7 @@ module.exports = class UserController{
         res.status(200).send(currentUser)
     }
 
-    // Resgatando usuário por ID
+    // Redeeming user by ID
     static async getUserById(req, res){
         const id = req.params.id
         const user = await User.findById(id).select('-password')
@@ -140,7 +140,7 @@ module.exports = class UserController{
         const {name, email, phone, password, confirmpassword} = req.body
         let image = ''
 
-        // Validações
+        // Validations
         if(!name){
             res.status(422).json({ message: 'O nome é obrigatório'})
             return
